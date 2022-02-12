@@ -48,6 +48,7 @@ public class AudioAsset {
     AudioDispatcher audio = audioList.get(playIndex);
 
     if (audio != null) {
+      audio.setOwner(this);
       audio.play(time, callback);
       playIndex++;
       playIndex = playIndex % audioList.size();
