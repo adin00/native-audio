@@ -1,7 +1,9 @@
 import { WebPlugin } from '@capacitor/core';
-import { NativeAudio } from "./definitions";
-import type { ConfigureOptions, PreloadOptions } from "./definitions";
+import type { ConfigureOptions, PreloadOptions } from './definitions';
+import { NativeAudio } from './definitions';
 export declare class NativeAudioWeb extends WebPlugin implements NativeAudio {
+    private static readonly FILE_LOCATION;
+    private static readonly AUDIO_ASSET_BY_ASSET_ID;
     constructor();
     resume(options: {
         assetId: string;
@@ -11,7 +13,6 @@ export declare class NativeAudioWeb extends WebPlugin implements NativeAudio {
     }): Promise<void>;
     getCurrentTime(options: {
         assetId: string;
-        time: number;
     }): Promise<{
         currentTime: number;
     }>;
@@ -24,6 +25,7 @@ export declare class NativeAudioWeb extends WebPlugin implements NativeAudio {
     preload(options: PreloadOptions): Promise<void>;
     play(options: {
         assetId: string;
+        time?: number;
     }): Promise<void>;
     loop(options: {
         assetId: string;
@@ -36,12 +38,15 @@ export declare class NativeAudioWeb extends WebPlugin implements NativeAudio {
     }): Promise<void>;
     setVolume(options: {
         assetId: string;
+        volume: number;
     }): Promise<void>;
     isPlaying(options: {
         assetId: string;
     }): Promise<{
         isPlaying: boolean;
     }>;
+    private getAudioAsset;
+    private checkAssetId;
 }
 declare const NativeAudio: NativeAudioWeb;
 export { NativeAudio };

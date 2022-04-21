@@ -1,5 +1,4 @@
 import type { Plugin } from '@capacitor/core';
-
 export interface NativeAudio extends Plugin {
     configure(options: ConfigureOptions): Promise<void>;
     preload(options: PreloadOptions): Promise<void>;
