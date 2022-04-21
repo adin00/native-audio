@@ -17,6 +17,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.content.res.AssetManager;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.os.ParcelFileDescriptor;
 import android.util.Log;
 import com.getcapacitor.JSObject;
@@ -237,6 +238,8 @@ public class NativeAudio
           if (wasPlaying) {
             resumeList.add(asset);
           }
+
+          call.resolve();
         }
       } else {
         call.reject(ERROR_ASSET_NOT_LOADED + " - " + audioId);
@@ -257,6 +260,7 @@ public class NativeAudio
         if (asset != null) {
           asset.resume();
           resumeList.add(asset);
+          call.resolve();
         }
       } else {
         call.reject(ERROR_ASSET_NOT_LOADED + " - " + audioId);
@@ -276,6 +280,7 @@ public class NativeAudio
         AudioAsset asset = audioAssetList.get(audioId);
         if (asset != null) {
           asset.stop();
+          call.resolve();
         }
       } else {
         call.reject(ERROR_ASSET_NOT_LOADED + " - " + audioId);
@@ -336,6 +341,7 @@ public class NativeAudio
         AudioAsset asset = audioAssetList.get(audioId);
         if (asset != null) {
           asset.setVolume(volume);
+          call.resolve();
         }
       } else {
         call.reject(ERROR_AUDIO_ASSET_MISSING);
@@ -427,9 +433,13 @@ public class NativeAudio
           );
           assetFileDescriptor = new AssetFileDescriptor(p, 0, -1);
         } else {
-          Context ctx = getBridge().getActivity().getApplicationContext();
-          AssetManager am = ctx.getResources().getAssets();
-          assetFileDescriptor = am.openFd(fullPath);
+          if (fullPath.startsWith("content")) {
+            assetFileDescriptor = getBridge().getActivity().getContentResolver().openAssetFileDescriptor(Uri.parse(fullPath), "r");
+          } else {
+            Context ctx = getBridge().getActivity().getApplicationContext();
+            AssetManager am = ctx.getResources().getAssets();
+            assetFileDescriptor = am.openFd(fullPath);
+          }
         }
 
         AudioAsset asset = new AudioAsset(
