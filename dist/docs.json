@@ -218,6 +218,13 @@
           "docs": "",
           "complexTypes": [],
           "type": "boolean | undefined"
+        },
+        {
+          "name": "focus",
+          "tags": [],
+          "docs": "",
+          "complexTypes": [],
+          "type": "boolean | undefined"
         }
       ]
     },

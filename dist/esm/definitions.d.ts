@@ -43,6 +43,7 @@ export interface NativeAudio extends Plugin {
 }
 export interface ConfigureOptions {
     fade?: boolean;
+    focus?: boolean;
 }
 export interface PreloadOptions {
     assetPath: string;
